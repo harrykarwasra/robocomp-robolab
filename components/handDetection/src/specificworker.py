@@ -119,9 +119,12 @@ class SpecificWorker(GenericWorker):
 			search_roi = (self.new_hand_roi.x, self.new_hand_roi.y, self.new_hand_roi.w, self.new_hand_roi.h)
 			self.hand_detector.add_hand2(frame, search_roi)
 			if len(self.hand_detector.hands) >= self.expected_hands:
+				self.hand_detector.record_video()
 				self.state = "tracking"
 				self.new_hand_roi = None
 		elif self.state == "tracking":
+			if len(self.hand_detector.hands) == 0:
+				self.hand_detector.stop_video()
 			self.hand_detector.update_detection_and_tracking(frame)
 		print "Compute in state %s with %d hands" % (self.state, len(self.hand_detector.hands))
 		return True
