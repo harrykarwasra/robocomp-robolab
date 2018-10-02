@@ -82,6 +82,7 @@ class SpecificWorker(GenericWorker):
 			color, depth, _, _ = self.rgbd_proxy.getData()
 			frame = np.fromstring(color, dtype=np.uint8)
 			frame = frame.reshape(480, 640, 3)
+			frame = cv2.UMat(frame)
 
 			depth = np.array(depth, dtype=np.float32)
 			depth = np.fromstring(depth, dtype=np.float32)
